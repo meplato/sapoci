@@ -1,0 +1,7 @@
+SAP OCI
+=======
+
+Ruby library and Rails plugin for punchout via SAP OCI protocol.
+
+
+Copyright (c) 2011 Oliver Eilhard, released under the MIT license
