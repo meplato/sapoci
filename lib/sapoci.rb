@@ -8,8 +8,6 @@
 # behavior in SAP OCI style.
 
 module SAPOCI
-  VERSION = "0.1.0".freeze
-
   VERSION_40    = "4.0"
   
   autoload :CoreExt,      'sapoci/core_ext.rb'

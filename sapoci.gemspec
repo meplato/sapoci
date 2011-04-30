@@ -1,11 +1,11 @@
 # -*- encoding: utf-8 -*-
-require File.expand_path('../lib/sapoci', __FILE__)
+#require File.expand_path('../lib/sapoci', __FILE__)
 
 extra_rdoc_files = ['CHANGELOG.md', 'LICENSE', 'README.md']
 
 Gem::Specification.new do |s|
   s.name = 'sapoci'
-  s.version = SAPOCI::VERSION.dup
+  s.version = '0.1.1'
   s.required_rubygems_version = Gem::Requirement.new(">= 1.3.6") if s.respond_to? :required_rubygems_version=
   s.authors = ['Oliver Eilhard']
   s.description = %q{Ruby library and Rails plugin for punchout via SAP OCI protocol.}
