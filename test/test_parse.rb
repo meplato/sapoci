@@ -18,6 +18,18 @@ class TestParse < Test::Unit::TestCase
     end
   end
 
+  def test_parse_real_world
+    file = File.expand_path(File.dirname(__FILE__) + "/files/real_world.html")
+    Document.from_html(IO.read(file)) do |doc|
+      count = 0
+      doc.items.each do |item|
+        assert !item.description.blank?
+        count += 1
+      end
+      assert_equal 10, count
+    end
+  end
+
   def test_parse_params
     Document.from_params(valid_single_params) do |doc|
       count = 0

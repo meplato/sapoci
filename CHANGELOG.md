@@ -1,3 +1,7 @@
+# 0.1.2, release 2011-07-05
+
+* Use Nokogiri 1.5.0
+
 # 0.1.1, release 2011-04-30
 
 * Removed version from sources and put it into gemspec only
