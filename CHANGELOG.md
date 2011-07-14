@@ -1,3 +1,7 @@
+# 0.1.3, release 2011-07-14
+
+* Ignore whitespace on numeric fields
+
 # 0.1.2, release 2011-07-05
 
 * Use Nokogiri 1.5.0

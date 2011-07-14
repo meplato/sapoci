@@ -48,15 +48,15 @@ module SAPOCI
     end
     
     def quantity
-      BigDecimal.new("0#{@quantity}")
+      BigDecimal.new("0#{@quantity.to_s.strip}")
     end
     
     def price
-      BigDecimal.new("0#{@price}")
+      BigDecimal.new("0#{@price.to_s.strip}")
     end
     
     def priceunit
-      BigDecimal.new("0#{@priceunit}")
+      BigDecimal.new("0#{@priceunit.to_s.strip}")
     end
     
     def leadtime
