@@ -60,6 +60,26 @@ class TestParse < Test::Unit::TestCase
     end
   end
 
+  def test_before_type_cast_methods
+    params = {
+      "NEW_ITEM-DESCRIPTION"=>{"1"=>"Visitenkarten"},
+      "NEW_ITEM-PRICE"=>{"1"=>" 780.00"},  # <= watch the whitespace
+      "NEW_ITEM-CURRENCY"=>{"1"=>"EUR"},
+      "NEW_ITEM-PRICEUNIT"=>{"1"=>"100 "},  # <= watch the whitespace
+      "NEW_ITEM-QUANTITY"=>{"1"=>" 12 "},  # <= watch the whitespace
+    }
+    Document.from_params(params) do |doc|
+      assert_equal 1, doc.items.size
+      assert item = doc.items.first
+      assert_equal 780.00, item.price
+      assert_equal " 780.00", item.price_before_type_cast
+      assert_equal 100.00, item.priceunit
+      assert_equal "100 ", item.priceunit_before_type_cast
+      assert_equal 12, item.quantity
+      assert_equal " 12 ", item.quantity_before_type_cast
+    end
+  end
+
   def test_parse_non_array_longtext
     # INVALID: NEW_ITEM-LONGTEXT_1:132  (No square brackets!)
     params = { "NEW_ITEM-LONGTEXT_1:132"=> "Standard Visitenkarte deutsch 200 St. " }

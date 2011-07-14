@@ -1,3 +1,7 @@
+# 0.1.4, release 2011-07-14
+
+* Add various before_type_cast methods
+
 # 0.1.3, release 2011-07-14
 
 * Ignore whitespace on numeric fields

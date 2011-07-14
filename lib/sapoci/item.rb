@@ -50,23 +50,39 @@ module SAPOCI
     def quantity
       BigDecimal.new("0#{@quantity.to_s.strip}")
     end
+
+    def quantity_before_type_cast
+      @quantity
+    end
     
     def price
       BigDecimal.new("0#{@price.to_s.strip}")
     end
     
+    def price_before_type_cast
+      @price
+    end
+
     def priceunit
       BigDecimal.new("0#{@priceunit.to_s.strip}")
     end
     
+    def priceunit_before_type_cast
+      @priceunit
+    end
+
     def leadtime
       @leadtime.to_i if @leadtime
+    end
+
+    def leadtime_before_type_cast
+      @leadtime
     end
     
     def service?
       self.service == "X"
     end
-    
+
     # Returns the item properties as HTML hidden field tags.
     def to_html(options = {})
       html = []
