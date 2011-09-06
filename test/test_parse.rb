@@ -60,6 +60,47 @@ class TestParse < Test::Unit::TestCase
     end
   end
 
+  def test_return_1_if_priceunit_is_missing
+    params = {
+      "NEW_ITEM-DESCRIPTION"=>{"1"=>"Visitenkarten"},
+      "NEW_ITEM-PRICE"=>{"1"=>"780.00"},
+      "NEW_ITEM-CURRENCY"=>{"1"=>"EUR"},
+    }
+    Document.from_params(params) do |doc|
+      assert_equal 1, doc.items.size
+      assert item = doc.items.first
+      assert_equal 1, item.priceunit
+    end
+  end
+
+  def test_return_1_if_priceunit_is_empty
+    params = {
+      "NEW_ITEM-DESCRIPTION"=>{"1"=>"Visitenkarten"},
+      "NEW_ITEM-PRICE"=>{"1"=>"780.00"},
+      "NEW_ITEM-PRICEUNIT"=>{"1"=>""},  # <= watch the blanks
+      "NEW_ITEM-CURRENCY"=>{"1"=>"EUR"},
+    }
+    Document.from_params(params) do |doc|
+      assert_equal 1, doc.items.size
+      assert item = doc.items.first
+      assert_equal 1, item.priceunit
+    end
+  end
+
+  def test_return_1_if_priceunit_is_all_whitespace
+    params = {
+      "NEW_ITEM-DESCRIPTION"=>{"1"=>"Visitenkarten"},
+      "NEW_ITEM-PRICE"=>{"1"=>"780.00"},
+      "NEW_ITEM-PRICEUNIT"=>{"1"=>" "},  # <= watch the whitespace
+      "NEW_ITEM-CURRENCY"=>{"1"=>"EUR"},
+    }
+    Document.from_params(params) do |doc|
+      assert_equal 1, doc.items.size
+      assert item = doc.items.first
+      assert_equal 1, item.priceunit
+    end
+  end
+
   def test_before_type_cast_methods
     params = {
       "NEW_ITEM-DESCRIPTION"=>{"1"=>"Visitenkarten"},

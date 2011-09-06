@@ -1,3 +1,7 @@
+# 0.1.5, released 2011-09-06
+
+* 1 is returned if PRICEUNIT is missing, empty, or whitespace
+
 # 0.1.4, release 2011-07-14
 
 * Add various before_type_cast methods

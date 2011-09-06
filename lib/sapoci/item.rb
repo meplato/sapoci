@@ -64,7 +64,7 @@ module SAPOCI
     end
 
     def priceunit
-      BigDecimal.new("0#{@priceunit.to_s.strip}")
+      BigDecimal.new("0#{@priceunit.to_s.strip}").nonzero? || 1
     end
     
     def priceunit_before_type_cast

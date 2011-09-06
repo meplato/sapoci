@@ -1,5 +1,4 @@
 # Rakefile for SAPOCI. -*-ruby-*
-require 'rake/rdoctask'
 require 'rake/testtask'
 
 Rake::TestTask.new do |t|
