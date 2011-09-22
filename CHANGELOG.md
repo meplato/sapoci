@@ -1,3 +1,7 @@
+# 0.1.6, unreleased
+
+* Wrong tests for longtext, but they still succeed
+
 # 0.1.5, released 2011-09-06
 
 * 1 is returned if PRICEUNIT is missing, empty, or whitespace

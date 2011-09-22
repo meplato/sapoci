@@ -123,8 +123,19 @@ class TestParse < Test::Unit::TestCase
 
   def test_parse_non_array_longtext
     # INVALID: NEW_ITEM-LONGTEXT_1:132  (No square brackets!)
-    params = { "NEW_ITEM-LONGTEXT_1:132"=> "Standard Visitenkarte deutsch 200 St. " }
-    Document.from_params(valid_single_params) do |doc|
+    params = valid_single_params
+    params["NEW_ITEM-LONGTEXT_1:132"] = "Standard Visitenkarte deutsch 200 St. "
+    Document.from_params(params) do |doc|
+      assert_equal 1, doc.items.size
+      assert_equal "Standard Visitenkarte deutsch 200 St. ", doc.items[0].longtext
+    end
+  end
+
+  def test_parse_array_longtext
+    # INVALID: NEW_ITEM-LONGTEXT_1:132[]
+    params = valid_single_params
+    params["NEW_ITEM-LONGTEXT_1:132"] = ["Standard Visitenkarte deutsch 200 St. "]
+    Document.from_params(params) do |doc|
       assert_equal 1, doc.items.size
       assert_equal "Standard Visitenkarte deutsch 200 St. ", doc.items[0].longtext
     end
@@ -132,8 +143,9 @@ class TestParse < Test::Unit::TestCase
 
   def test_parse_indexed_longtext
     # INVALID: NEW_ITEM-LONGTEXT_1:132[1]  (Index ist falsch!)
-    params = { "NEW_ITEM-LONGTEXT_1:132"=>{"1"=>"Standard Visitenkarte deutsch 200 St. "} }
-    Document.from_params(valid_single_params) do |doc|
+    params = valid_single_params
+    params["NEW_ITEM-LONGTEXT_1:132"] = {"1"=>"Standard Visitenkarte deutsch 200 St. "}
+    Document.from_params(params) do |doc|
       assert_equal 1, doc.items.size
       assert_equal "Standard Visitenkarte deutsch 200 St. ", doc.items[0].longtext
     end
