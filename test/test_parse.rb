@@ -18,6 +18,17 @@ class TestParse < Test::Unit::TestCase
     end
   end
 
+  def test_parse_long_html
+    Document.from_html(valid_long_html) do |doc|
+      count = 0
+      assert_equal 2, doc.items.count
+      assert_equal "Apple MacBook Air 11\"", doc.items[0].description
+      assert_equal "Ein tolles Notebook von Apple.", doc.items[0].longtext
+      assert_equal "Apple iMac 27\"", doc.items[1].description
+      assert_equal "Der elegante Desktop-Rechner von Apple.", doc.items[1].longtext
+    end
+  end
+
   def test_parse_real_world
     file = File.expand_path(File.dirname(__FILE__) + "/files/real_world.html")
     Document.from_html(IO.read(file)) do |doc|
@@ -230,6 +241,41 @@ EOF
       <input type='hidden' name='NEW_ITEM-DESCRIPTION[2]' value='Description 2'>
       <input type='hidden' name='NEW_ITEM-DESCRIPTION[3]' value='Description 3'>
       <input type='hidden' name='NEW_ITEM-DESCRIPTION[1]' value='Description 1'>
+    </form>
+  </body>
+</html>
+EOF
+  end
+
+  def valid_long_html
+<<EOF
+<html>
+  <head><title>Search1</title></head>
+  <body>
+    <form method="POST" action="http://return.to/me">
+      <input type="hidden" name="NEW_ITEM-DESCRIPTION[1]" value="Apple MacBook Air 11&quot;">
+      <input type="hidden" name="NEW_ITEM-QUANTITY[1]" value="1.00">
+      <input type="hidden" name="NEW_ITEM-UNIT[1]" value="PCE">
+      <input type="hidden" name="NEW_ITEM-PRICE[1]" value="999.90">
+      <input type="hidden" name="NEW_ITEM-CURRENCY[1]" value="EUR">
+      <input type="hidden" name="NEW_ITEM-PRICEUNIT[1]" value="1">
+      <input type="hidden" name="NEW_ITEM-LEADTIME[1]" value="7">
+      <input type="hidden" name="NEW_ITEM-VENDOR[1]" value="Apple">
+      <input type="hidden" name="NEW_ITEM-VENDORMAT[1]" value="MBA11">
+      <input type="hidden" name="NEW_ITEM-MATGROUP[1]" value="NOTEBOOK">
+      <input type="hidden" name="NEW_ITEM-LONGTEXT_1:132[]" value="Ein tolles Notebook von Apple.">
+
+      <input type="hidden" name="NEW_ITEM-DESCRIPTION[2]" value="Apple iMac 27&quot;">
+      <input type="hidden" name="NEW_ITEM-QUANTITY[2]" value="2.00">
+      <input type="hidden" name="NEW_ITEM-UNIT[2]" value="PCE">
+      <input type="hidden" name="NEW_ITEM-PRICE[2]" value="1799.00">
+      <input type="hidden" name="NEW_ITEM-CURRENCY[2]" value="EUR">
+      <input type="hidden" name="NEW_ITEM-PRICEUNIT[2]" value="1">
+      <input type="hidden" name="NEW_ITEM-LEADTIME[2]" value="7">
+      <input type="hidden" name="NEW_ITEM-VENDOR[2]" value="Apple">
+      <input type="hidden" name="NEW_ITEM-VENDORMAT[2]" value="IMAC27">
+      <input type="hidden" name="NEW_ITEM-MATGROUP[2]" value="DESKTOP">
+      <input type="hidden" name="NEW_ITEM-LONGTEXT_2:132[]" value="Der elegante Desktop-Rechner von Apple.">
     </form>
   </body>
 </html>

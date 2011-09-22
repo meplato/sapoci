@@ -1,6 +1,7 @@
-# 0.1.6, unreleased
+# 0.1.6, released 2011-09-22
 
 * Wrong tests for longtext, but they still succeed
+* Longtext not parsed in HTML case
 
 # 0.1.5, released 2011-09-06
 

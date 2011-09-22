@@ -63,6 +63,11 @@ module SAPOCI
           value = item_node.attribute("value").value
           items[index] = Item.new(index) unless items[index]
           items[index].send((property+'=').downcase.to_sym, value)
+        elsif /NEW_ITEM-LONGTEXT_(\d+):132/.match(name)
+          index = $1.to_i - 1
+          value = item_node.attribute("value").value
+          items[index] = Item.new(index) unless items[index]
+          items[index].longtext = value
         end
       end
       items.inject([]) { |memo, (key, value)| memo << value }.sort_by(&:index)
