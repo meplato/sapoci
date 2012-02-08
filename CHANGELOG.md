@@ -1,3 +1,7 @@
+# 0.1.7, released 2012-02-08
+
+* Replace comma by dot in numeric fields
+
 # 0.1.6, released 2011-09-22
 
 * Wrong tests for longtext, but they still succeed

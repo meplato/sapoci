@@ -71,6 +71,18 @@ class TestParse < Test::Unit::TestCase
     end
   end
 
+  def test_parse_numeric_fields_with_comma
+    params = {
+      "NEW_ITEM-DESCRIPTION"=>{"1"=>"Visitenkarten"},
+      "NEW_ITEM-PRICE"=>{"1"=>" 780,12"},  # <= watch the whitespace and the comma
+    }
+    Document.from_params(params) do |doc|
+      assert_equal 1, doc.items.size
+      assert item = doc.items.first
+      assert_equal 780.12, item.price
+    end
+  end
+
   def test_return_1_if_priceunit_is_missing
     params = {
       "NEW_ITEM-DESCRIPTION"=>{"1"=>"Visitenkarten"},

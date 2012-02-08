@@ -48,7 +48,7 @@ module SAPOCI
     end
     
     def quantity
-      BigDecimal.new("0#{@quantity.to_s.strip}")
+      BigDecimal.new("0#{@quantity.to_s.strip.gsub(/,/,'.')}")
     end
 
     def quantity_before_type_cast
@@ -56,7 +56,7 @@ module SAPOCI
     end
     
     def price
-      BigDecimal.new("0#{@price.to_s.strip}")
+      BigDecimal.new("0#{@price.to_s.strip.gsub(/,/,'.')}")
     end
     
     def price_before_type_cast
@@ -64,7 +64,7 @@ module SAPOCI
     end
 
     def priceunit
-      BigDecimal.new("0#{@priceunit.to_s.strip}").nonzero? || 1
+      BigDecimal.new("0#{@priceunit.to_s.strip.gsub(/,/,'.')}").nonzero? || 1
     end
     
     def priceunit_before_type_cast
