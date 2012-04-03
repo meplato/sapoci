@@ -6,7 +6,7 @@ require 'test/unit'
 
 class TestOutput < Test::Unit::TestCase
   include SAPOCI
-  
+
   def test_edge_cases
     assert_equal "", Document.from_params(nil).to_html
     assert_equal "", Document.from_params({}).to_html
