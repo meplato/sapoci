@@ -109,6 +109,20 @@ class TestOutput < Test::Unit::TestCase
     end
   end
 
+  def test_correct_escaping
+    params = { "NEW_ITEM-LONGTEXT_1:132"=>["<script>alert('Hello');</script>"] }
+    Document.from_params(params) do |doc|
+      html = doc.to_html
+      assert_match /<input type="hidden" name="NEW_ITEM-LONGTEXT_1:132\[\]" value="&lt;script&gt;alert\(&#39;Hello&#39;\);&lt;\/script&gt;" \/>/, html
+    end
+
+    params = { "NEW_ITEM-LONGTEXT_1:132"=>["&lt;script&gt;alert('Hello');&lt;/script&gt;"] }
+    Document.from_params(params) do |doc|
+      html = doc.to_html
+      assert_match /<input type="hidden" name="NEW_ITEM-LONGTEXT_1:132\[\]" value="&amp;lt;script&amp;gt;alert\(&#39;Hello&#39;\);&amp;lt;\/script&amp;gt;" \/>/, html
+    end
+  end
+
 private
 
   def valid_params_complex
@@ -140,5 +154,6 @@ private
       "NEW_ITEM-UNIT"=>{"1"=>"EA"}
     }
   end
+
 
 end
