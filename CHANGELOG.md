@@ -1,3 +1,14 @@
+# 0.1.9, released 2014-03-14
+
+* Added dependency on Nokogiri
+* Added development dependency on Rake (for REE 1.8.7)
+
+# 0.1.8, released 2012-05-06
+
+* Add test for HTML-escaping fields, e.g. longtext
+* Remove rake dependency
+* Tested under REE 1.8.7 and 1.9.3-p125
+
 # 0.1.7, released 2012-02-08
 
 * Replace comma by dot in numeric fields
