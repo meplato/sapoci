@@ -9,19 +9,20 @@ Gem::Specification.new do |s|
   s.required_rubygems_version = Gem::Requirement.new(">= 1.3.6") if s.respond_to? :required_rubygems_version=
   s.authors = ['Oliver Eilhard']
   s.description = %q{Ruby library and Rails plugin for punchout via SAP OCI protocol.}
+  s.summary = %q{SAP OCI enables users to parse SAP OCI compliant data from online shops.}
+  s.license = "MIT"
   s.email = ['oliver.eilhard@gmail.com']
   s.extra_rdoc_files = extra_rdoc_files
   s.homepage = 'http://github.com/meplato/sapoci'
   s.rdoc_options = ['--charset=UTF-8']
   s.require_paths = ['lib']
-  s.summary = s.description
   s.executables = `git ls-files -- bin/*`.split("\n").map{ |f| File.basename(f) }
   s.files = `git ls-files -- {bin,lib,spec}/*`.split("\n") + extra_rdoc_files
   s.test_files = `git ls-files -- {spec}/*`.split("\n")
 
-  s.add_dependency("nokogiri", "~> 1.5.5")
+  s.add_dependency("nokogiri", "~> 1.5", '< 1.6')
   s.add_development_dependency("bundler", "~> 1.1")
   s.add_development_dependency("rdoc", "~> 2.5")
-  s.add_development_dependency("rake", ">= 0.9.2")
+  s.add_development_dependency("rake", "~> 10.1")
 end
 
