@@ -1,3 +1,10 @@
+# 0.2.0, released 2015-07-22
+
+* Update gems
+* Require nokogiri ~> 1.6
+* Require Ruby ~> 2.2
+* Ignore unknown properties in OCI item, e.g. NEW_ITEM-TAX_RATE
+
 # 0.1.9, released 2014-03-14
 
 * Added dependency on Nokogiri

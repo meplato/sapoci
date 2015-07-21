@@ -6,21 +6,21 @@ require 'sapoci/core_ext'
 
 module SAPOCI
   # SAPOCI::Document is for parsing and emitting SAP OCI compliant
-  # data. 
-  # 
+  # data.
+  #
   # Open a +Document+ by feeding it a string:
-  # 
+  #
   #   doc = SAPOCI::Document.from_html("<html>...</html>")
-  # 
+  #
   # Open a +Document+ by parsing a Rails-/Rack compatible +Hash+:
-  # 
+  #
   #   doc = SAPOCI::Document.from_params({ "NEW_ITEM-DESCRIPTION"=>{"1"=>"Standard Visitenkarte deutsch 200 St."} })
   #
   class Document
     def initialize(items)
       @items = items
     end
-    
+
     # Create a new document from a HTML string.
     def self.from_html(html)
       html_doc = Nokogiri::HTML(html)
@@ -28,18 +28,18 @@ module SAPOCI
       yield doc if block_given?
       doc
     end
-    
-    # Create a new document from a Rails-/Rack-compatible 
+
+    # Create a new document from a Rails-/Rack-compatible
     # params hash.
     def self.from_params(params)
       doc = Document.new(parse_params(params))
       yield doc if block_given?
       doc
     end
-    
+
     # All +Item+ instances.
     attr_reader :items
-    
+
     # Returns all +items+ as HTML hidden field tags.
     def to_html(options = {})
       html = []
@@ -48,9 +48,9 @@ module SAPOCI
       end
       html.join
     end
-    
+
   private
-    
+
     # Parses a Nokogiri HTML document and returns
     # +Item+ instances in an array.
     def self.parse_html(doc)
@@ -60,9 +60,10 @@ module SAPOCI
         if /NEW_ITEM-(\w+)\[(\d+)\]/.match(name)
           property = $1
           index = $2.to_i - 1
+          method = (property+'=').downcase.to_sym
           value = item_node.attribute("value").value
           items[index] = Item.new(index) unless items[index]
-          items[index].send((property+'=').downcase.to_sym, value)
+          items[index].send(method, value) if items[index].respond_to?(method)
         elsif /NEW_ITEM-LONGTEXT_(\d+):132/.match(name)
           index = $1.to_i - 1
           value = item_node.attribute("value").value
@@ -72,7 +73,7 @@ module SAPOCI
       end
       items.inject([]) { |memo, (key, value)| memo << value }.sort_by(&:index)
     end
-    
+
     # Parses a Rails-/Rack-compatible params hash and returns
     # +Item+ instances in an array.
     def self.parse_params(params)
@@ -83,12 +84,12 @@ module SAPOCI
           oci_values.each do |index, value|
             index = index.to_i - 1 rescue next
             property = /NEW_ITEM-(\w+)/.match(oci_name)[1]
-            next if property =~ /LONGTEXT/ 
+            next if property =~ /LONGTEXT/
             method = (property+'=').downcase.to_sym
             items[index] = Item.new(index) unless items[index]
             items[index].send(method, value) if items[index].respond_to?(method)
           end if oci_values && oci_values.respond_to?(:each)
-          
+
           # LONGTEXT is a special case because it doesn't follow the conventions
           # Format is:
           #   NEW_ITEM-LONTEXT_n:132[]
@@ -116,6 +117,6 @@ module SAPOCI
       end
       items.inject([]) { |memo, (key, value)| memo << value }.sort_by(&:index)
     end
-    
+
   end
 end

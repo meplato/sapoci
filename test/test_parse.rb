@@ -54,6 +54,22 @@ class TestParse < Test::Unit::TestCase
     end
   end
 
+  def test_ignore_unknown_fields
+    params = {
+      "NEW_ITEM-DESCRIPTION"=>{"1"=>"Visitenkarten"},
+      "NEW_ITEM-TAX_RATE"=>{"1"=>"0.19"},  # <= no such property in OCI
+      "NEW_ITEM-CURRENCY"=>{"1"=>"EUR"},
+      "NEW_ITEM-PRICEUNIT"=>{"1"=>"100 "},  # <= watch the whitespace
+      "NEW_ITEM-QUANTITY"=>{"1"=>" 12 "},  # <= watch the whitespace
+    }
+    Document.from_params(params) do |doc|
+      assert_equal 1, doc.items.size
+      assert item = doc.items.first
+      assert_equal 100.00, item.priceunit
+      assert_equal 12, item.quantity
+    end
+  end
+
   def test_ignore_whitespace_on_numeric_fields
     params = {
       "NEW_ITEM-DESCRIPTION"=>{"1"=>"Visitenkarten"},

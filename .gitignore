@@ -1,6 +1,7 @@
 .DS_Store
 *~
 *.swp
+*.gem
 .rbenv-version
 .rvmrc
 data/*
