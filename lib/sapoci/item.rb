@@ -7,16 +7,12 @@ require 'bigdecimal'
 
 module SAPOCI
   class Item
-    
+
     attr_reader :index
     attr_accessor :description
     attr_accessor :matnr
-    attr_accessor :quantity
     attr_accessor :unit
-    attr_accessor :price
     attr_accessor :currency
-    attr_accessor :priceunit
-    attr_accessor :leadtime
     attr_accessor :longtext
     attr_accessor :vendor
     attr_accessor :vendormat
@@ -36,49 +32,108 @@ module SAPOCI
     attr_accessor :ext_category_id
     attr_accessor :ext_category
     attr_accessor :sld_sys_name
+    attr_accessor :mps_sage_number
+    attr_accessor :mps_sage_contract
     attr_accessor :cust_field1
     attr_accessor :cust_field2
     attr_accessor :cust_field3
     attr_accessor :cust_field4
     attr_accessor :cust_field5
-    
+    attr_accessor :cust_field6
+    attr_accessor :cust_field7
+    attr_accessor :cust_field8
+    attr_accessor :cust_field9
+    attr_accessor :cust_field10
+    attr_accessor :cust_field11
+    attr_accessor :cust_field12
+    attr_accessor :cust_field13
+    attr_accessor :cust_field14
+    attr_accessor :cust_field15
+    attr_accessor :cust_field16
+    attr_accessor :cust_field17
+    attr_accessor :cust_field18
+    attr_accessor :cust_field19
+    attr_accessor :cust_field20
+    attr_accessor :cust_field21
+    attr_accessor :cust_field22
+    attr_accessor :cust_field23
+    attr_accessor :cust_field24
+    attr_accessor :cust_field25
+    attr_accessor :cust_field26
+    attr_accessor :cust_field27
+    attr_accessor :cust_field28
+    attr_accessor :cust_field29
+    attr_accessor :cust_field30
+
     # Initializes the item.
     def initialize(index)
       @index = index
     end
-    
+
     def quantity
-      BigDecimal.new("0#{@quantity.to_s.strip.gsub(/,/,'.')}")
+      if defined?(@quantity)
+        BigDecimal.new("0#{@quantity.to_s.strip.gsub(/,/,'.')}")
+      else
+        BigDecimal.new("0.0")
+      end
+    end
+
+    def quantity=(value)
+      @quantity = value
     end
 
     def quantity_before_type_cast
       @quantity
     end
-    
+
     def price
-      BigDecimal.new("0#{@price.to_s.strip.gsub(/,/,'.')}")
+      if defined?(@price)
+        BigDecimal.new("0#{@price.to_s.strip.gsub(/,/,'.')}")
+      else
+        BigDecimal.new("0.0")
+      end
     end
-    
+
+    def price=(value)
+      @price = value
+    end
+
     def price_before_type_cast
       @price
     end
 
     def priceunit
-      BigDecimal.new("0#{@priceunit.to_s.strip.gsub(/,/,'.')}").nonzero? || 1
+      if defined?(@priceunit)
+        BigDecimal.new("0#{@priceunit.to_s.strip.gsub(/,/,'.')}").nonzero? || 1
+      else
+        1
+      end
     end
-    
+
+    def priceunit=(value)
+      @priceunit = value
+    end
+
     def priceunit_before_type_cast
       @priceunit
     end
 
     def leadtime
-      @leadtime.to_i if @leadtime
+      if defined?(@leadtime) && @leadtime
+        @leadtime.to_i
+      else
+        0
+      end
+    end
+
+    def leadtime=(value)
+      @leadtime = value
     end
 
     def leadtime_before_type_cast
       @leadtime
     end
-    
+
     def service?
       self.service == "X"
     end
@@ -112,21 +167,48 @@ module SAPOCI
       html << hidden_field_tag("EXT_CATEGORY_ID", self.ext_category_id) unless self.ext_category_id.blank?
       html << hidden_field_tag("EXT_CATEGORY",    self.ext_category)    unless self.ext_category.blank?
       html << hidden_field_tag("SLD_SYS_NAME",    self.sld_sys_name)    unless self.sld_sys_name.blank?
+      html << hidden_field_tag("MPS_SAGE_NUMBER",   self.mps_sage_number)    unless self.mps_sage_number.blank?
+      html << hidden_field_tag("MPS_SAGE_CONTRACT", self.mps_sage_contract)  unless self.mps_sage_contract.blank?
       html << hidden_field_tag("CUST_FIELD1",     self.cust_field1)     unless self.cust_field1.blank?
       html << hidden_field_tag("CUST_FIELD2",     self.cust_field2)     unless self.cust_field2.blank?
       html << hidden_field_tag("CUST_FIELD3",     self.cust_field3)     unless self.cust_field3.blank?
       html << hidden_field_tag("CUST_FIELD4",     self.cust_field4)     unless self.cust_field4.blank?
       html << hidden_field_tag("CUST_FIELD5",     self.cust_field5)     unless self.cust_field5.blank?
+      html << hidden_field_tag("CUST_FIELD6",     self.cust_field6)     unless self.cust_field6.blank?
+      html << hidden_field_tag("CUST_FIELD7",     self.cust_field7)     unless self.cust_field7.blank?
+      html << hidden_field_tag("CUST_FIELD8",     self.cust_field8)     unless self.cust_field8.blank?
+      html << hidden_field_tag("CUST_FIELD9",     self.cust_field9)     unless self.cust_field9.blank?
+      html << hidden_field_tag("CUST_FIELD10",    self.cust_field10)    unless self.cust_field10.blank?
+      html << hidden_field_tag("CUST_FIELD11",    self.cust_field11)    unless self.cust_field11.blank?
+      html << hidden_field_tag("CUST_FIELD12",    self.cust_field12)    unless self.cust_field12.blank?
+      html << hidden_field_tag("CUST_FIELD13",    self.cust_field13)    unless self.cust_field13.blank?
+      html << hidden_field_tag("CUST_FIELD14",    self.cust_field14)    unless self.cust_field14.blank?
+      html << hidden_field_tag("CUST_FIELD15",    self.cust_field15)    unless self.cust_field15.blank?
+      html << hidden_field_tag("CUST_FIELD16",    self.cust_field16)    unless self.cust_field16.blank?
+      html << hidden_field_tag("CUST_FIELD17",    self.cust_field17)    unless self.cust_field17.blank?
+      html << hidden_field_tag("CUST_FIELD18",    self.cust_field18)    unless self.cust_field18.blank?
+      html << hidden_field_tag("CUST_FIELD19",    self.cust_field19)    unless self.cust_field19.blank?
+      html << hidden_field_tag("CUST_FIELD20",    self.cust_field20)    unless self.cust_field20.blank?
+      html << hidden_field_tag("CUST_FIELD21",    self.cust_field21)    unless self.cust_field21.blank?
+      html << hidden_field_tag("CUST_FIELD22",    self.cust_field22)    unless self.cust_field22.blank?
+      html << hidden_field_tag("CUST_FIELD23",    self.cust_field23)    unless self.cust_field23.blank?
+      html << hidden_field_tag("CUST_FIELD24",    self.cust_field24)    unless self.cust_field24.blank?
+      html << hidden_field_tag("CUST_FIELD25",    self.cust_field25)    unless self.cust_field25.blank?
+      html << hidden_field_tag("CUST_FIELD26",    self.cust_field26)    unless self.cust_field26.blank?
+      html << hidden_field_tag("CUST_FIELD27",    self.cust_field27)    unless self.cust_field27.blank?
+      html << hidden_field_tag("CUST_FIELD28",    self.cust_field28)    unless self.cust_field28.blank?
+      html << hidden_field_tag("CUST_FIELD29",    self.cust_field29)    unless self.cust_field29.blank?
+      html << hidden_field_tag("CUST_FIELD30",    self.cust_field30)    unless self.cust_field30.blank?
       html << "<input type=\"hidden\" name=\"NEW_ITEM-LONGTEXT_#{index + 1}:132[]\" value=\"#{escape_html(self.longtext)}\" />" unless self.longtext.blank?
       html.join
     end
-    
+
   private
-    
+
     def hidden_field_tag(name, value, options = {})
       "<input type=\"hidden\" name=\"NEW_ITEM-#{name}[#{index + 1}]\" value=\"#{escape_html(value)}\" />"
     end
-    
+
     ESCAPE_HTML	=	{ "&" => "&amp;", "<" => "&lt;", ">" => "&gt;", "'" => "&#39;", '"' => "&quot;", }
     ESCAPE_HTML_PATTERN	=	Regexp.union(ESCAPE_HTML.keys)
 

@@ -71,7 +71,7 @@ module SAPOCI
           items[index].longtext = value
         end
       end
-      items.inject([]) { |memo, (key, value)| memo << value }.sort_by(&:index)
+      items.inject([]) { |memo, (_, value)| memo << value }.sort_by(&:index)
     end
 
     # Parses a Rails-/Rack-compatible params hash and returns
@@ -115,7 +115,7 @@ module SAPOCI
           end if oci_values
         end # oci_name =~ /NEW_ITEM-/
       end
-      items.inject([]) { |memo, (key, value)| memo << value }.sort_by(&:index)
+      items.inject([]) { |memo, (_, value)| memo << value }.sort_by(&:index)
     end
 
   end

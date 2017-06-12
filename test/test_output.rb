@@ -16,24 +16,24 @@ class TestOutput < Test::Unit::TestCase
   def test_simple_output
     params = { "NEW_ITEM-DESCRIPTION"=>{"1"=>"Description 1"} }
     Document.from_params(params) do |doc|
-      assert_match /<input type="hidden" name="NEW_ITEM-DESCRIPTION\[1\]" value="Description 1"/, doc.to_html
+      assert_match(/<input type="hidden" name="NEW_ITEM-DESCRIPTION\[1\]" value="Description 1"/, doc.to_html)
     end
   end
 
   def test_escaped_output
     params = { "NEW_ITEM-DESCRIPTION"=>{"1"=>"Apple iMac\""} }
     Document.from_params(params) do |doc|
-      assert_match /<input type="hidden" name="NEW_ITEM-DESCRIPTION\[1\]" value="Apple iMac&quot;"/, doc.to_html
+      assert_match(/<input type="hidden" name="NEW_ITEM-DESCRIPTION\[1\]" value="Apple iMac&quot;"/, doc.to_html)
     end
   end
 
   def test_complex_output
     Document.from_params(valid_params_complex) do |doc|
       html = doc.to_html
-      assert_match /<input type="hidden" name="NEW_ITEM-DESCRIPTION\[1\]" value="Visitenkarten"/, html
-      assert_match /<input type="hidden" name="NEW_ITEM-CURRENCY\[1\]" value="EUR"/, html
-      assert_match /<input type="hidden" name="NEW_ITEM-PRICE\[1\]" value="00000000016\.180"/, html
-      assert_match /<input type="hidden" name="NEW_ITEM-LONGTEXT_1:132\[\]" value="Standard Visitenkarte deutsch 200 St. "/, html
+      assert_match(/<input type="hidden" name="NEW_ITEM-DESCRIPTION\[1\]" value="Visitenkarten"/, html)
+      assert_match(/<input type="hidden" name="NEW_ITEM-CURRENCY\[1\]" value="EUR"/, html)
+      assert_match(/<input type="hidden" name="NEW_ITEM-PRICE\[1\]" value="00000000016\.180"/, html)
+      assert_match(/<input type="hidden" name="NEW_ITEM-LONGTEXT_1:132\[\]" value="Standard Visitenkarte deutsch 200 St. "/, html)
     end
   end
 
@@ -42,7 +42,7 @@ class TestOutput < Test::Unit::TestCase
     params = { "NEW_ITEM-LONGTEXT_1:132" => "Standard Visitenkarte deutsch 200 St. " }
     Document.from_params(params) do |doc|
       html = doc.to_html
-      assert_match /<input type="hidden" name="NEW_ITEM-LONGTEXT_1:132\[\]" value="Standard Visitenkarte deutsch 200 St. "/, html
+      assert_match(/<input type="hidden" name="NEW_ITEM-LONGTEXT_1:132\[\]" value="Standard Visitenkarte deutsch 200 St. "/, html)
     end
   end
 
@@ -51,7 +51,7 @@ class TestOutput < Test::Unit::TestCase
     params = { "NEW_ITEM-LONGTEXT_1:132"=>{"1"=>"Standard Visitenkarte deutsch 200 St. "} }
     Document.from_params(params) do |doc|
       html = doc.to_html
-      assert_match /<input type="hidden" name="NEW_ITEM-LONGTEXT_1:132\[\]" value="Standard Visitenkarte deutsch 200 St. "/, html
+      assert_match(/<input type="hidden" name="NEW_ITEM-LONGTEXT_1:132\[\]" value="Standard Visitenkarte deutsch 200 St. "/, html)
     end
   end
 
@@ -60,7 +60,33 @@ class TestOutput < Test::Unit::TestCase
     params = { "NEW_ITEM-PRICEUNIT"=>{"1"=>"1"} }
     Document.from_params(params) do |doc|
       html = doc.to_html
-      assert_match /<input type="hidden" name="NEW_ITEM-PRICEUNIT\[1\]" value="1"/, html
+      assert_match(/<input type="hidden" name="NEW_ITEM-PRICEUNIT\[1\]" value="1"/, html)
+    end
+  end
+
+  def test_output_of_mps_extensions
+    params = {
+      "NEW_ITEM-MPS_SAGE_NUMBER"=>{"1"=>"80222"},
+      "NEW_ITEM-MPS_SAGE_CONTRACT"=>{"1"=>"AA03"},
+    }
+    Document.from_params(params) do |doc|
+      html = doc.to_html
+      assert_match(/<input type="hidden" name="NEW_ITEM-MPS_SAGE_NUMBER\[1\]" value="80222"/, html)
+      assert_match(/<input type="hidden" name="NEW_ITEM-MPS_SAGE_CONTRACT\[1\]" value="AA03"/, html)
+    end
+  end
+
+  def test_output_of_cust_fields
+    params = {
+      "NEW_ITEM-CUST_FIELD1"=>{"1"=>"1st"},
+      "NEW_ITEM-CUST_FIELD9"=>{"1"=>"9th"},
+      "NEW_ITEM-CUST_FIELD30"=>{"1"=>"30th"},
+    }
+    Document.from_params(params) do |doc|
+      html = doc.to_html
+      assert_match(/<input type="hidden" name="NEW_ITEM-CUST_FIELD1\[1\]" value="1st"/, html)
+      assert_match(/<input type="hidden" name="NEW_ITEM-CUST_FIELD9\[1\]" value="9th"/, html)
+      assert_match(/<input type="hidden" name="NEW_ITEM-CUST_FIELD30\[1\]" value="30th"/, html)
     end
   end
 
@@ -94,18 +120,18 @@ class TestOutput < Test::Unit::TestCase
     }
     Document.from_params(params) do |doc|
       html = doc.to_html
-      assert_match /<input type="hidden" name="NEW_ITEM-DESCRIPTION\[1\]" value="PRITT COMPACT KORREKTURROLLER 4,2MMX8,5M"/, html
-      assert_match /<input type="hidden" name="NEW_ITEM-CURRENCY\[1\]" value="EUR"/, html
-      assert_match /<input type="hidden" name="NEW_ITEM-PRICE\[1\]" value="00000000001\.440"/, html
-      assert_match /<input type="hidden" name="NEW_ITEM-DESCRIPTION\[2\]" value="BX100 SIGEL DP461 BRIEFPAP.IMPRESSIONS"/, html
-      assert_match /<input type="hidden" name="NEW_ITEM-CURRENCY\[2\]" value="EUR"/, html
-      assert_match /<input type="hidden" name="NEW_ITEM-PRICE\[2\]" value="00000000008\.470"/, html
-      assert_match /<input type="hidden" name="NEW_ITEM-DESCRIPTION\[3\]" value="BX250 IDEM 92100910721 SD-PAP. A4 WSGE"/, html
-      assert_match /<input type="hidden" name="NEW_ITEM-CURRENCY\[3\]" value="EUR"/, html
-      assert_match /<input type="hidden" name="NEW_ITEM-PRICE\[3\]" value="00000000018\.400"/, html
-      assert_match /<input type="hidden" name="NEW_ITEM-DESCRIPTION\[4\]" value="BX150 HP CG965A FARBLASERPAPIER A4 150G"/, html
-      assert_match /<input type="hidden" name="NEW_ITEM-CURRENCY\[4\]" value="USD"/, html
-      assert_match /<input type="hidden" name="NEW_ITEM-PRICE\[4\]" value="00000000025\.740"/, html
+      assert_match(/<input type="hidden" name="NEW_ITEM-DESCRIPTION\[1\]" value="PRITT COMPACT KORREKTURROLLER 4,2MMX8,5M"/, html)
+      assert_match(/<input type="hidden" name="NEW_ITEM-CURRENCY\[1\]" value="EUR"/, html)
+      assert_match(/<input type="hidden" name="NEW_ITEM-PRICE\[1\]" value="00000000001\.440"/, html)
+      assert_match(/<input type="hidden" name="NEW_ITEM-DESCRIPTION\[2\]" value="BX100 SIGEL DP461 BRIEFPAP.IMPRESSIONS"/, html)
+      assert_match(/<input type="hidden" name="NEW_ITEM-CURRENCY\[2\]" value="EUR"/, html)
+      assert_match(/<input type="hidden" name="NEW_ITEM-PRICE\[2\]" value="00000000008\.470"/, html)
+      assert_match(/<input type="hidden" name="NEW_ITEM-DESCRIPTION\[3\]" value="BX250 IDEM 92100910721 SD-PAP. A4 WSGE"/, html)
+      assert_match(/<input type="hidden" name="NEW_ITEM-CURRENCY\[3\]" value="EUR"/, html)
+      assert_match(/<input type="hidden" name="NEW_ITEM-PRICE\[3\]" value="00000000018\.400"/, html)
+      assert_match(/<input type="hidden" name="NEW_ITEM-DESCRIPTION\[4\]" value="BX150 HP CG965A FARBLASERPAPIER A4 150G"/, html)
+      assert_match(/<input type="hidden" name="NEW_ITEM-CURRENCY\[4\]" value="USD"/, html)
+      assert_match(/<input type="hidden" name="NEW_ITEM-PRICE\[4\]" value="00000000025\.740"/, html)
     end
   end
 
@@ -113,13 +139,13 @@ class TestOutput < Test::Unit::TestCase
     params = { "NEW_ITEM-LONGTEXT_1:132"=>["<script>alert('Hello');</script>"] }
     Document.from_params(params) do |doc|
       html = doc.to_html
-      assert_match /<input type="hidden" name="NEW_ITEM-LONGTEXT_1:132\[\]" value="&lt;script&gt;alert\(&#39;Hello&#39;\);&lt;\/script&gt;" \/>/, html
+      assert_match(/<input type="hidden" name="NEW_ITEM-LONGTEXT_1:132\[\]" value="&lt;script&gt;alert\(&#39;Hello&#39;\);&lt;\/script&gt;" \/>/, html)
     end
 
     params = { "NEW_ITEM-LONGTEXT_1:132"=>["&lt;script&gt;alert('Hello');&lt;/script&gt;"] }
     Document.from_params(params) do |doc|
       html = doc.to_html
-      assert_match /<input type="hidden" name="NEW_ITEM-LONGTEXT_1:132\[\]" value="&amp;lt;script&amp;gt;alert\(&#39;Hello&#39;\);&amp;lt;\/script&amp;gt;" \/>/, html
+      assert_match(/<input type="hidden" name="NEW_ITEM-LONGTEXT_1:132\[\]" value="&amp;lt;script&amp;gt;alert\(&#39;Hello&#39;\);&amp;lt;\/script&amp;gt;" \/>/, html)
     end
   end
 

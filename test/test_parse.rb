@@ -20,7 +20,6 @@ class TestParse < Test::Unit::TestCase
 
   def test_parse_long_html
     Document.from_html(valid_long_html) do |doc|
-      count = 0
       assert_equal 2, doc.items.count
       assert_equal "Apple MacBook Air 11\"", doc.items[0].description
       assert_equal "Ein tolles Notebook von Apple.", doc.items[0].longtext
@@ -51,6 +50,20 @@ class TestParse < Test::Unit::TestCase
         count += 1
       end
       assert_equal 1, count
+    end
+  end
+
+  def test_parse_meplato_extensions
+    file = File.expand_path(File.dirname(__FILE__) + "/files/meplato_extensions.html")
+    Document.from_html(IO.read(file)) do |doc|
+      count = 0
+      doc.items.each do |item|
+        assert !item.mps_sage_number.blank?
+        assert !item.mps_sage_contract.blank?
+        assert !item.cust_field30.blank?
+        count += 1
+      end
+      assert_equal 10, count
     end
   end
 
