@@ -34,6 +34,7 @@ module SAPOCI
     attr_accessor :sld_sys_name
     attr_accessor :mps_sage_number
     attr_accessor :mps_sage_contract
+    attr_accessor :tax_code
     attr_accessor :cust_field1
     attr_accessor :cust_field2
     attr_accessor :cust_field3
@@ -138,6 +139,22 @@ module SAPOCI
       self.service == "X"
     end
 
+    def tax_rate
+      if defined?(@tax_rate)
+        BigDecimal.new("0#{@tax_rate.to_s.strip.gsub(/,/,'.')}")
+      else
+        BigDecimal.new("0.0")
+      end
+    end
+
+    def tax_rate=(value)
+      @tax_rate = value
+    end
+
+    def tax_rate_before_type_cast
+      @tax_rate
+    end
+
     # Returns the item properties as HTML hidden field tags.
     def to_html(options = {})
       html = []
@@ -169,6 +186,8 @@ module SAPOCI
       html << hidden_field_tag("SLD_SYS_NAME",    self.sld_sys_name)    unless self.sld_sys_name.blank?
       html << hidden_field_tag("MPS_SAGE_NUMBER",   self.mps_sage_number)    unless self.mps_sage_number.blank?
       html << hidden_field_tag("MPS_SAGE_CONTRACT", self.mps_sage_contract)  unless self.mps_sage_contract.blank?
+      html << hidden_field_tag("TAX_RATE",        "%.5f" % self.tax_rate)  if self.tax_rate.to_f > 0
+      html << hidden_field_tag("TAX_CODE",        self.tax_code)        unless self.tax_code.blank?
       html << hidden_field_tag("CUST_FIELD1",     self.cust_field1)     unless self.cust_field1.blank?
       html << hidden_field_tag("CUST_FIELD2",     self.cust_field2)     unless self.cust_field2.blank?
       html << hidden_field_tag("CUST_FIELD3",     self.cust_field3)     unless self.cust_field3.blank?

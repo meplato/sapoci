@@ -61,6 +61,8 @@ class TestParse < Test::Unit::TestCase
         assert !item.mps_sage_number.blank?
         assert !item.mps_sage_contract.blank?
         assert !item.cust_field30.blank?
+        assert_equal 0.19, item.tax_rate
+        assert !item.tax_code.blank?
         count += 1
       end
       assert_equal 10, count
@@ -104,11 +106,13 @@ class TestParse < Test::Unit::TestCase
     params = {
       "NEW_ITEM-DESCRIPTION"=>{"1"=>"Visitenkarten"},
       "NEW_ITEM-PRICE"=>{"1"=>" 780,12"},  # <= watch the whitespace and the comma
+      "NEW_ITEM-TAX_RATE"=>{"1"=>" 0,19"},  # <= watch the whitespace and the comma
     }
     Document.from_params(params) do |doc|
       assert_equal 1, doc.items.size
       assert item = doc.items.first
       assert_equal 780.12, item.price
+      assert_equal 0.19, item.tax_rate
     end
   end
 

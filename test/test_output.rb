@@ -76,6 +76,18 @@ class TestOutput < Test::Unit::TestCase
     end
   end
 
+  def test_output_of_tax_extensions
+    params = {
+      "NEW_ITEM-TAX_RATE"=>{"1"=>0.19},
+      "NEW_ITEM-TAX_CODE"=>{"1"=>"V19"},
+    }
+    Document.from_params(params) do |doc|
+      html = doc.to_html
+      assert_match(/<input type="hidden" name="NEW_ITEM-TAX_RATE\[1\]" value="0.19000"/, html)
+      assert_match(/<input type="hidden" name="NEW_ITEM-TAX_CODE\[1\]" value="V19"/, html)
+    end
+  end
+
   def test_output_of_cust_fields
     params = {
       "NEW_ITEM-CUST_FIELD1"=>{"1"=>"1st"},
