@@ -69,6 +69,11 @@ module SAPOCI
           value = item_node.attribute("value").value
           items[index] = Item.new(index) unless items[index]
           items[index].longtext = value
+        elsif /NEW_ITEM-LONGTEXT(.*)\[(\d+)\]/.match(name)
+          index = $2.to_i - 1
+          value = item_node.attribute("value").value
+          items[index] = Item.new(index) unless items[index]
+          items[index].longtext = value
         end
       end
       items.inject([]) { |memo, (_, value)| memo << value }.sort_by(&:index)
@@ -80,11 +85,11 @@ module SAPOCI
       items = {}
       (params || {}).each do |oci_name, oci_values|
         if oci_name =~ /NEW_ITEM-/
-          # Parse anything but NEW_ITEM-LONGTEXT (which is special, see below)
+          # Parse anything but NEW_ITEM-LONGTEXT_... (which is special, see below)
           oci_values.each do |index, value|
             index = index.to_i - 1 rescue next
             property = /NEW_ITEM-(\w+)/.match(oci_name)[1]
-            next if property =~ /LONGTEXT/
+            next if property =~ /LONGTEXT_/ # <- notice the underscore here!
             method = (property+'=').downcase.to_sym
             items[index] = Item.new(index) unless items[index]
             items[index].send(method, value) if items[index].respond_to?(method)
@@ -102,7 +107,13 @@ module SAPOCI
             if oci_values.is_a?(Array)
               # NEW_ITEM-LONGTEXT_1:132[]
               items[index] = Item.new(index) unless items[index]
-              items[index].longtext = oci_values.first
+              if oci_values.first.is_a?(Hash)
+                # <input type="hidden" name="NEW_ITEM-LONGTEXT_1:132[][1]" value="Longtext">
+                # "NEW_ITEM-LONGTEXT_1:132"=>[{"1"=>"Longtext"}]
+                items[index].longtext = oci_values.first.values[0]
+              else
+                items[index].longtext = oci_values.first
+              end
             elsif oci_values.is_a?(String)
               # NEW_ITEM-LONGTEXT_1:132 <= invalid but parsed!
               items[index] = Item.new(index) unless items[index]

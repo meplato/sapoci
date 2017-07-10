@@ -28,6 +28,22 @@ class TestParse < Test::Unit::TestCase
     end
   end
 
+  def test_parse_invalid_longtext_html
+    Document.from_html(valid_invalid_longtext_html) do |doc|
+      assert_equal 5, doc.items.count
+      assert_equal "Apple MacBook Air 11\"", doc.items[0].description
+      assert_equal "Apple iMac 27\"", doc.items[1].description
+      assert_equal "Apple iMac 27 Pro\"", doc.items[2].description
+      assert_equal "Apple iPad 10.5\"", doc.items[3].description
+      assert_equal "Apple iPhone 7 Plus", doc.items[4].description
+      assert_equal "Ein tolles Notebook von Apple.", doc.items[0].longtext
+      assert_equal "Der elegante Desktop-Rechner von Apple.", doc.items[1].longtext
+      assert_equal "Der Profi-Rechner von Apple.", doc.items[2].longtext
+      assert_equal "Das Pro Tablet von Apple.", doc.items[3].longtext
+      assert_equal "Das iPhone 7 Plus. Weil größer ist besser.", doc.items[4].longtext
+    end
+  end
+
   def test_parse_real_world
     file = File.expand_path(File.dirname(__FILE__) + "/files/real_world.html")
     Document.from_html(IO.read(file)) do |doc|
@@ -50,6 +66,42 @@ class TestParse < Test::Unit::TestCase
         count += 1
       end
       assert_equal 1, count
+    end
+  end
+
+  def test_parse_invalid_longtext_params
+    params = {
+      "NEW_ITEM-DESCRIPTION"=>{
+        "1"=>"Position 1",
+        "2"=>"Position 2",
+        "3"=>"Position 3",
+        "4"=>"Position 4",
+      },
+      "NEW_ITEM-LONGTEXT"=>{
+        "1"=>"Langtext 1"
+      },
+      "NEW_ITEM-LONGTEXT_2:132"=>{
+        "2"=>"Langtext 2",
+      },
+      "NEW_ITEM-LONGTEXT_3:132"=>[
+        "Langtext 3",
+      ],
+      # Completely broken...
+      "NEW_ITEM-LONGTEXT_4:132"=>[{
+        "4"=>"Langtext 4",
+      }],
+      # "NEW_ITEM-LONGTEXT_1:132"=>[{"1"=>"Zeskantbout ISO 4014 Staal Rechts Blank 8.8 M16X160"}]
+    }
+    Document.from_params(params) do |doc|
+      assert_equal 4, doc.items.size
+      assert_equal "Position 1", doc.items[0].description
+      assert_equal "Langtext 1", doc.items[0].longtext
+      assert_equal "Position 2", doc.items[1].description
+      assert_equal "Langtext 2", doc.items[1].longtext
+      assert_equal "Position 3", doc.items[2].description
+      assert_equal "Langtext 3", doc.items[2].longtext
+      assert_equal "Position 4", doc.items[3].description
+      assert_equal "Langtext 4", doc.items[3].longtext
     end
   end
 
@@ -336,6 +388,82 @@ EOF
   <body>
     <form method='POST' action='http://punchout.local/punchback'>
       <input type='hidden' name='NEW_ITEM-DESCRIPTION[1]' value='19" Rack'>
+    </form>
+  </body>
+</html>
+EOF
+  end
+
+  def valid_invalid_longtext_html
+<<EOF
+<html>
+  <head><title>Search1</title></head>
+  <body>
+    <form method="POST" action="http://return.to/me">
+      <input type="hidden" name="NEW_ITEM-DESCRIPTION[1]" value="Apple MacBook Air 11&quot;">
+      <input type="hidden" name="NEW_ITEM-QUANTITY[1]" value="1.00">
+      <input type="hidden" name="NEW_ITEM-UNIT[1]" value="PCE">
+      <input type="hidden" name="NEW_ITEM-PRICE[1]" value="999.90">
+      <input type="hidden" name="NEW_ITEM-CURRENCY[1]" value="EUR">
+      <input type="hidden" name="NEW_ITEM-PRICEUNIT[1]" value="1">
+      <input type="hidden" name="NEW_ITEM-LEADTIME[1]" value="7">
+      <input type="hidden" name="NEW_ITEM-VENDOR[1]" value="Apple">
+      <input type="hidden" name="NEW_ITEM-VENDORMAT[1]" value="MBA11">
+      <input type="hidden" name="NEW_ITEM-MATGROUP[1]" value="NOTEBOOK">
+      <!-- Correct according to spec -->
+      <input type="hidden" name="NEW_ITEM-LONGTEXT_1:132[]" value="Ein tolles Notebook von Apple.">
+
+      <input type="hidden" name="NEW_ITEM-DESCRIPTION[2]" value="Apple iMac 27&quot;">
+      <input type="hidden" name="NEW_ITEM-QUANTITY[2]" value="2.00">
+      <input type="hidden" name="NEW_ITEM-UNIT[2]" value="PCE">
+      <input type="hidden" name="NEW_ITEM-PRICE[2]" value="1799.00">
+      <input type="hidden" name="NEW_ITEM-CURRENCY[2]" value="EUR">
+      <input type="hidden" name="NEW_ITEM-PRICEUNIT[2]" value="1">
+      <input type="hidden" name="NEW_ITEM-LEADTIME[2]" value="7">
+      <input type="hidden" name="NEW_ITEM-VENDOR[2]" value="Apple">
+      <input type="hidden" name="NEW_ITEM-VENDORMAT[2]" value="IMAC27">
+      <input type="hidden" name="NEW_ITEM-MATGROUP[2]" value="DESKTOP">
+      <!-- Incorrect: Index in brackets -->
+      <input type="hidden" name="NEW_ITEM-LONGTEXT_2:132[2]" value="Der elegante Desktop-Rechner von Apple.">
+
+      <input type="hidden" name="NEW_ITEM-DESCRIPTION[3]" value="Apple iMac 27 Pro&quot;">
+      <input type="hidden" name="NEW_ITEM-QUANTITY[3]" value="1.00">
+      <input type="hidden" name="NEW_ITEM-UNIT[3]" value="PCE">
+      <input type="hidden" name="NEW_ITEM-PRICE[3]" value="4999.00">
+      <input type="hidden" name="NEW_ITEM-CURRENCY[3]" value="EUR">
+      <input type="hidden" name="NEW_ITEM-PRICEUNIT[3]" value="1">
+      <input type="hidden" name="NEW_ITEM-LEADTIME[3]" value="14">
+      <input type="hidden" name="NEW_ITEM-VENDOR[3]" value="Apple">
+      <input type="hidden" name="NEW_ITEM-VENDORMAT[3]" value="IMAC27PRO">
+      <input type="hidden" name="NEW_ITEM-MATGROUP[3]" value="SERVER">
+      <!-- Incorrect: Index in brackets plus incorrect field name -->
+      <input type="hidden" name="NEW_ITEM-LONGTEXT:132[3]" value="Der Profi-Rechner von Apple.">
+
+      <input type="hidden" name="NEW_ITEM-DESCRIPTION[4]" value="Apple iPad 10.5&quot;">
+      <input type="hidden" name="NEW_ITEM-QUANTITY[4]" value="1.00">
+      <input type="hidden" name="NEW_ITEM-UNIT[4]" value="PCE">
+      <input type="hidden" name="NEW_ITEM-PRICE[4]" value="799.00">
+      <input type="hidden" name="NEW_ITEM-CURRENCY[4]" value="EUR">
+      <input type="hidden" name="NEW_ITEM-PRICEUNIT[4]" value="1">
+      <input type="hidden" name="NEW_ITEM-LEADTIME[4]" value="3">
+      <input type="hidden" name="NEW_ITEM-VENDOR[4]" value="Apple">
+      <input type="hidden" name="NEW_ITEM-VENDORMAT[4]" value="IPADPRO10/5">
+      <input type="hidden" name="NEW_ITEM-MATGROUP[4]" value="TABLET">
+      <!-- Incorrect: Index in brackets plus even more incorrect field name -->
+      <input type="hidden" name="NEW_ITEM-LONGTEXT[4]" value="Das Pro Tablet von Apple.">
+
+      <input type="hidden" name="NEW_ITEM-DESCRIPTION[5]" value="Apple iPhone 7 Plus">
+      <input type="hidden" name="NEW_ITEM-QUANTITY[5]" value="1.00">
+      <input type="hidden" name="NEW_ITEM-UNIT[5]" value="PCE">
+      <input type="hidden" name="NEW_ITEM-PRICE[5]" value="899.00">
+      <input type="hidden" name="NEW_ITEM-CURRENCY[5]" value="EUR">
+      <input type="hidden" name="NEW_ITEM-PRICEUNIT[5]" value="1">
+      <input type="hidden" name="NEW_ITEM-LEADTIME[5]" value="3">
+      <input type="hidden" name="NEW_ITEM-VENDOR[5]" value="Apple">
+      <input type="hidden" name="NEW_ITEM-VENDORMAT[5]" value="IPHONE7+">
+      <input type="hidden" name="NEW_ITEM-MATGROUP[5]" value="MOBILE">
+      <!-- Incorrect: Like... completely broken... -->
+      <input type="hidden" name="NEW_ITEM-LONGTEXT_5:132[][5]" value="Das iPhone 7 Plus. Weil größer ist besser.">
     </form>
   </body>
 </html>
