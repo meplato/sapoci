@@ -5,7 +5,7 @@ extra_rdoc_files = ['CHANGELOG.md', 'LICENSE', 'README.md']
 
 Gem::Specification.new do |s|
   s.name = 'sapoci'
-  s.version = '0.3.2'
+  s.version = '0.3.3'
   s.required_rubygems_version = Gem::Requirement.new(">= 1.3.6") if s.respond_to? :required_rubygems_version=
   s.authors = ['Oliver Eilhard']
   s.description = %q{Ruby library and Rails plugin for punchout via SAP OCI protocol.}
@@ -23,7 +23,7 @@ Gem::Specification.new do |s|
 
   s.add_dependency("nokogiri", "~> 1.6")
   s.add_development_dependency("bundler", "~> 1.10")
-  s.add_development_dependency("rdoc", "~> 2.5")
+  s.add_development_dependency("rdoc", "~> 3.12", ">= 3.12.1")
   s.add_development_dependency("rake", "~> 10.4")
 end
 
