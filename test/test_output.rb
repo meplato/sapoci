@@ -102,6 +102,18 @@ class TestOutput < Test::Unit::TestCase
     end
   end
 
+  def test_output_of_amazon_extensions
+    params = {
+      "NEW_ITEM-SOLD_BY"=>{"1"=>"Seller"},
+      "NEW_ITEM-FULFILLED_BY"=>{"1"=>"Fulfiller"},
+    }
+    Document.from_params(params) do |doc|
+      html = doc.to_html
+      assert_match(/<input type="hidden" name="NEW_ITEM-SOLD_BY\[1\]" value="Seller"/, html)
+      assert_match(/<input type="hidden" name="NEW_ITEM-FULFILLED_BY\[1\]" value="Fulfiller"/, html)
+    end
+  end
+
   def test_output_correct_index
     params = {
       "NEW_ITEM-DESCRIPTION"=>{

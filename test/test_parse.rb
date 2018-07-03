@@ -115,6 +115,8 @@ class TestParse < Test::Unit::TestCase
         assert !item.cust_field30.blank?
         assert_equal 0.19, item.tax_rate
         assert !item.tax_code.blank?
+        assert !item.sold_by.blank?
+        assert !item.fulfilled_by.blank?
         count += 1
       end
       assert_equal 10, count

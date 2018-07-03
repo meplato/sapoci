@@ -35,6 +35,8 @@ module SAPOCI
     attr_accessor :mps_sage_number
     attr_accessor :mps_sage_contract
     attr_accessor :tax_code
+    attr_accessor :sold_by
+    attr_accessor :fulfilled_by
     attr_accessor :cust_field1
     attr_accessor :cust_field2
     attr_accessor :cust_field3
@@ -188,6 +190,8 @@ module SAPOCI
       html << hidden_field_tag("MPS_SAGE_CONTRACT", self.mps_sage_contract)  unless self.mps_sage_contract.blank?
       html << hidden_field_tag("TAX_RATE",        "%.5f" % self.tax_rate)  if self.tax_rate.to_f > 0
       html << hidden_field_tag("TAX_CODE",        self.tax_code)        unless self.tax_code.blank?
+      html << hidden_field_tag("SOLD_BY",         self.sold_by)         unless self.sold_by.blank?
+      html << hidden_field_tag("FULFILLED_BY",    self.fulfilled_by)    unless self.fulfilled_by.blank?
       html << hidden_field_tag("CUST_FIELD1",     self.cust_field1)     unless self.cust_field1.blank?
       html << hidden_field_tag("CUST_FIELD2",     self.cust_field2)     unless self.cust_field2.blank?
       html << hidden_field_tag("CUST_FIELD3",     self.cust_field3)     unless self.cust_field3.blank?
