@@ -73,11 +73,19 @@ module SAPOCI
       @index = index
     end
 
+    def decimal(s)
+      if RUBY_VERSION >= '2.5'
+        BigDecimal(s)
+      else
+        BigDecimal.new(s)
+      end
+    end
+
     def quantity
       if defined?(@quantity)
-        BigDecimal.new("0#{@quantity.to_s.strip.gsub(/,/,'.')}")
+        decimal("0#{@quantity.to_s.strip.gsub(/,/,'.')}")
       else
-        BigDecimal.new("0.0")
+        decimal("0.0")
       end
     end
 
@@ -91,9 +99,9 @@ module SAPOCI
 
     def price
       if defined?(@price)
-        BigDecimal.new("0#{@price.to_s.strip.gsub(/,/,'.')}")
+        decimal("0#{@price.to_s.strip.gsub(/,/,'.')}")
       else
-        BigDecimal.new("0.0")
+        decimal("0.0")
       end
     end
 
@@ -107,7 +115,7 @@ module SAPOCI
 
     def priceunit
       if defined?(@priceunit)
-        BigDecimal.new("0#{@priceunit.to_s.strip.gsub(/,/,'.')}").nonzero? || 1
+        decimal("0#{@priceunit.to_s.strip.gsub(/,/,'.')}").nonzero? || 1
       else
         1
       end
@@ -143,9 +151,9 @@ module SAPOCI
 
     def tax_rate
       if defined?(@tax_rate)
-        BigDecimal.new("0#{@tax_rate.to_s.strip.gsub(/,/,'.')}")
+        decimal("0#{@tax_rate.to_s.strip.gsub(/,/,'.')}")
       else
-        BigDecimal.new("0.0")
+        decimal("0.0")
       end
     end
 
