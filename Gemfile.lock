@@ -1,15 +1,15 @@
 PATH
   remote: .
   specs:
-    sapoci (0.3.4)
-      nokogiri (~> 1.8.2)
+    sapoci (0.3.7)
+      nokogiri (~> 1.8.5, >= 1.8.5)
 
 GEM
   remote: http://rubygems.org/
   specs:
     json (1.8.6)
     mini_portile2 (2.3.0)
-    nokogiri (1.8.2)
+    nokogiri (1.8.5)
       mini_portile2 (~> 2.3.0)
     rake (10.5.0)
     rdoc (3.12.2)
@@ -22,9 +22,9 @@ PLATFORMS
 DEPENDENCIES
   bundler (~> 1.10)
   rake (~> 10.4)
-  rdoc (~> 3.12.1)
+  rdoc (~> 3.12, >= 3.12.1)
   sapoci!
   test-unit (~> 2.3)
 
 BUNDLED WITH
-   1.16.1
+   1.16.5
