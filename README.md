@@ -6,7 +6,9 @@ Ruby library and Rails plugin for punchout via SAP OCI protocol.
 
 ## Installation
 
+```
 $ gem install sapoci
+```
 
 ## License
 
