@@ -114,6 +114,16 @@ class TestOutput < Test::Unit::TestCase
     end
   end
 
+  def test_output_of_gtin_extension
+    params = {
+      "NEW_ITEM-GTIN"=>{"1"=>"4060838384365"},
+    }
+    Document.from_params(params) do |doc|
+      html = doc.to_html
+      assert_match(/<input type="hidden" name="NEW_ITEM-GTIN\[1\]" value="4060838384365"/, html)
+    end
+  end
+
   def test_output_correct_index
     params = {
       "NEW_ITEM-DESCRIPTION"=>{
@@ -201,7 +211,7 @@ private
       "NEW_ITEM-MANUFACTMAT"=>{"1"=>""},
       "NEW_ITEM-EXT_QUOTE_ITEM"=>{"1"=>""},
       "NEW_ITEM-MATNR"=>{"1"=>""},
-      "NEW_ITEM-UNIT"=>{"1"=>"EA"}
+      "NEW_ITEM-UNIT"=>{"1"=>"EA"},
     }
   end
 

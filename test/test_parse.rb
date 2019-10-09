@@ -23,8 +23,10 @@ class TestParse < Test::Unit::TestCase
       assert_equal 2, doc.items.count
       assert_equal "Apple MacBook Air 11\"", doc.items[0].description
       assert_equal "Ein tolles Notebook von Apple.", doc.items[0].longtext
+      assert_equal "2000111096426", doc.items[0].gtin
       assert_equal "Apple iMac 27\"", doc.items[1].description
       assert_equal "Der elegante Desktop-Rechner von Apple.", doc.items[1].longtext
+      assert_equal "4060838384365", doc.items[1].gtin
     end
   end
 
@@ -363,7 +365,8 @@ EOF
       <input type="hidden" name="NEW_ITEM-VENDORMAT[1]" value="MBA11">
       <input type="hidden" name="NEW_ITEM-MATGROUP[1]" value="NOTEBOOK">
       <input type="hidden" name="NEW_ITEM-LONGTEXT_1:132[]" value="Ein tolles Notebook von Apple.">
-
+      <input type="hidden" name="NEW_ITEM-GTIN[1]" value="2000111096426">
+      
       <input type="hidden" name="NEW_ITEM-DESCRIPTION[2]" value="Apple iMac 27&quot;">
       <input type="hidden" name="NEW_ITEM-QUANTITY[2]" value="2.00">
       <input type="hidden" name="NEW_ITEM-UNIT[2]" value="PCE">
@@ -375,6 +378,7 @@ EOF
       <input type="hidden" name="NEW_ITEM-VENDORMAT[2]" value="IMAC27">
       <input type="hidden" name="NEW_ITEM-MATGROUP[2]" value="DESKTOP">
       <input type="hidden" name="NEW_ITEM-LONGTEXT_2:132[]" value="Der elegante Desktop-Rechner von Apple.">
+      <input type="hidden" name="NEW_ITEM-GTIN[2]" value="4060838384365">
     </form>
   </body>
 </html>
