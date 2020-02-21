@@ -93,12 +93,20 @@ class TestOutput < Test::Unit::TestCase
       "NEW_ITEM-CUST_FIELD1"=>{"1"=>"1st"},
       "NEW_ITEM-CUST_FIELD9"=>{"1"=>"9th"},
       "NEW_ITEM-CUST_FIELD30"=>{"1"=>"30th"},
+      "NEW_ITEM-CUST_FIELD31"=>{"1"=>"31st"},
+      "NEW_ITEM-CUST_FIELD40"=>{"1"=>"40th"},
+      "NEW_ITEM-CUST_FIELD50"=>{"1"=>"50th"},
+      "NEW_ITEM-CUST_FIELD51"=>{"1"=>"51st"}, # will not be parsed
     }
     Document.from_params(params) do |doc|
       html = doc.to_html
       assert_match(/<input type="hidden" name="NEW_ITEM-CUST_FIELD1\[1\]" value="1st"/, html)
       assert_match(/<input type="hidden" name="NEW_ITEM-CUST_FIELD9\[1\]" value="9th"/, html)
       assert_match(/<input type="hidden" name="NEW_ITEM-CUST_FIELD30\[1\]" value="30th"/, html)
+      assert_match(/<input type="hidden" name="NEW_ITEM-CUST_FIELD31\[1\]" value="31st"/, html)
+      assert_match(/<input type="hidden" name="NEW_ITEM-CUST_FIELD40\[1\]" value="40th"/, html)
+      assert_match(/<input type="hidden" name="NEW_ITEM-CUST_FIELD50\[1\]" value="50th"/, html)
+      assert_no_match(/<input type="hidden" name="NEW_ITEM-CUST_FIELD51\[1\]" value="51st"/, html)
     end
   end
 

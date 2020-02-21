@@ -68,6 +68,26 @@ module SAPOCI
     attr_accessor :cust_field28
     attr_accessor :cust_field29
     attr_accessor :cust_field30
+    attr_accessor :cust_field31
+    attr_accessor :cust_field32
+    attr_accessor :cust_field33
+    attr_accessor :cust_field34
+    attr_accessor :cust_field35
+    attr_accessor :cust_field36
+    attr_accessor :cust_field37
+    attr_accessor :cust_field38
+    attr_accessor :cust_field39
+    attr_accessor :cust_field40
+    attr_accessor :cust_field41
+    attr_accessor :cust_field42
+    attr_accessor :cust_field43
+    attr_accessor :cust_field44
+    attr_accessor :cust_field45
+    attr_accessor :cust_field46
+    attr_accessor :cust_field47
+    attr_accessor :cust_field48
+    attr_accessor :cust_field49
+    attr_accessor :cust_field50
 
     # Initializes the item.
     def initialize(index)
@@ -232,6 +252,26 @@ module SAPOCI
       html << hidden_field_tag("CUST_FIELD28",    self.cust_field28)    unless self.cust_field28.blank?
       html << hidden_field_tag("CUST_FIELD29",    self.cust_field29)    unless self.cust_field29.blank?
       html << hidden_field_tag("CUST_FIELD30",    self.cust_field30)    unless self.cust_field30.blank?
+      html << hidden_field_tag("CUST_FIELD31",    self.cust_field31)    unless self.cust_field31.blank?
+      html << hidden_field_tag("CUST_FIELD32",    self.cust_field32)    unless self.cust_field32.blank?
+      html << hidden_field_tag("CUST_FIELD33",    self.cust_field33)    unless self.cust_field33.blank?
+      html << hidden_field_tag("CUST_FIELD34",    self.cust_field34)    unless self.cust_field34.blank?
+      html << hidden_field_tag("CUST_FIELD35",    self.cust_field35)    unless self.cust_field35.blank?
+      html << hidden_field_tag("CUST_FIELD36",    self.cust_field36)    unless self.cust_field36.blank?
+      html << hidden_field_tag("CUST_FIELD37",    self.cust_field37)    unless self.cust_field37.blank?
+      html << hidden_field_tag("CUST_FIELD38",    self.cust_field38)    unless self.cust_field38.blank?
+      html << hidden_field_tag("CUST_FIELD39",    self.cust_field39)    unless self.cust_field39.blank?
+      html << hidden_field_tag("CUST_FIELD40",    self.cust_field40)    unless self.cust_field40.blank?
+      html << hidden_field_tag("CUST_FIELD41",    self.cust_field41)    unless self.cust_field41.blank?
+      html << hidden_field_tag("CUST_FIELD42",    self.cust_field42)    unless self.cust_field42.blank?
+      html << hidden_field_tag("CUST_FIELD43",    self.cust_field43)    unless self.cust_field43.blank?
+      html << hidden_field_tag("CUST_FIELD44",    self.cust_field44)    unless self.cust_field44.blank?
+      html << hidden_field_tag("CUST_FIELD45",    self.cust_field45)    unless self.cust_field45.blank?
+      html << hidden_field_tag("CUST_FIELD46",    self.cust_field46)    unless self.cust_field46.blank?
+      html << hidden_field_tag("CUST_FIELD47",    self.cust_field47)    unless self.cust_field47.blank?
+      html << hidden_field_tag("CUST_FIELD48",    self.cust_field48)    unless self.cust_field48.blank?
+      html << hidden_field_tag("CUST_FIELD49",    self.cust_field49)    unless self.cust_field49.blank?
+      html << hidden_field_tag("CUST_FIELD50",    self.cust_field50)    unless self.cust_field50.blank?
       html << "<input type=\"hidden\" name=\"NEW_ITEM-LONGTEXT_#{index + 1}:132[]\" value=\"#{escape_html(self.longtext)}\" />" unless self.longtext.blank?
       html.join
     end
