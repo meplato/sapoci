@@ -23,5 +23,5 @@ Gem::Specification.new do |s|
 
   s.add_development_dependency("bundler", "~> 2.0.1")
   s.add_development_dependency("rdoc", "~> 3.12", ">= 3.12.1")
-  s.add_development_dependency("rake", "~> 10.4")
+  s.add_development_dependency("rake", "~> 12.3")
 end
