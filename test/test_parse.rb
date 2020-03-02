@@ -23,9 +23,13 @@ class TestParse < Test::Unit::TestCase
       assert_equal 2, doc.items.count
       assert_equal "Apple MacBook Air 11\"", doc.items[0].description
       assert_equal "Ein tolles Notebook von Apple.", doc.items[0].longtext
+      assert_equal nil, doc.items[0].service
+      assert_equal false, doc.items[0].service?
       assert_equal "2000111096426", doc.items[0].gtin
       assert_equal "Apple iMac 27\"", doc.items[1].description
       assert_equal "Der elegante Desktop-Rechner von Apple.", doc.items[1].longtext
+      assert_equal "X", doc.items[1].service
+      assert_equal true, doc.items[1].service?
       assert_equal "4060838384365", doc.items[1].gtin
     end
   end
@@ -374,6 +378,7 @@ EOF
       <input type="hidden" name="NEW_ITEM-CURRENCY[2]" value="EUR">
       <input type="hidden" name="NEW_ITEM-PRICEUNIT[2]" value="1">
       <input type="hidden" name="NEW_ITEM-LEADTIME[2]" value="7">
+      <input type="hidden" name="NEW_ITEM-SERVICE[2]" value="X">
       <input type="hidden" name="NEW_ITEM-VENDOR[2]" value="Apple">
       <input type="hidden" name="NEW_ITEM-VENDORMAT[2]" value="IMAC27">
       <input type="hidden" name="NEW_ITEM-MATGROUP[2]" value="DESKTOP">

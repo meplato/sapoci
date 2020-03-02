@@ -122,6 +122,26 @@ class TestOutput < Test::Unit::TestCase
     end
   end
 
+  def test_output_of_service_field_set
+    params = {
+      "NEW_ITEM-SERVICE"=>{"1"=>"X"},
+    }
+    Document.from_params(params) do |doc|
+      html = doc.to_html
+      assert_match(/<input type="hidden" name="NEW_ITEM-SERVICE\[1\]" value="X"/, html)
+    end
+  end
+
+  def test_output_of_service_field_unset
+    params = {
+      "NEW_ITEM-SERVICE"=>{"1"=>" "},
+    }
+    Document.from_params(params) do |doc|
+      html = doc.to_html
+      assert_no_match(/<input type="hidden" name="NEW_ITEM-SERVICE\[1\]"/, html)
+    end
+  end
+
   def test_output_of_gtin_extension
     params = {
       "NEW_ITEM-GTIN"=>{"1"=>"4060838384365"},
