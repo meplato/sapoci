@@ -1,6 +1,5 @@
 # encoding: utf-8
 
-require 'rubygems' unless RUBY_VERSION >= '1.9'
 require 'nokogiri'
 require 'sapoci/core_ext'
 
