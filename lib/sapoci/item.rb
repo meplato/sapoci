@@ -33,6 +33,7 @@ module SAPOCI
     attr_accessor :sld_sys_name
     attr_accessor :mps_sage_number
     attr_accessor :mps_sage_contract
+    attr_accessor :tax_rate
     attr_accessor :tax_code
     attr_accessor :sold_by
     attr_accessor :fulfilled_by
