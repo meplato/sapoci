@@ -5,7 +5,7 @@ extra_rdoc_files = ['CHANGELOG.md', 'LICENSE', 'README.md']
 
 Gem::Specification.new do |s|
   s.name = 'sapoci'
-  s.version = '0.5.1'
+  s.version = '0.5.2'
   s.summary = %q{SAP OCI enables users to parse SAP OCI compliant data from online shops.}
   s.description = %q{Ruby library and Rails plugin for punchout via SAP OCI protocol.}
   s.authors = ['Oliver Eilhard']
