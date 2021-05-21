@@ -1,22 +1,69 @@
 PATH
   remote: .
   specs:
-    sapoci (0.5.1)
-      nokogiri (~> 1.11.4)
+    sapoci (0.5.2)
+      nokogiri (~> 1.11.5)
 
 GEM
   remote: http://rubygems.org/
   specs:
+    ast (2.4.2)
+    backport (1.1.2)
+    benchmark (0.1.1)
+    e2mmap (0.1.0)
+    jaro_winkler (1.5.4)
+    kramdown (2.3.1)
+      rexml
+    kramdown-parser-gfm (1.1.0)
+      kramdown (~> 2.0)
     mini_portile2 (2.5.1)
-    nokogiri (1.11.4)
+    nokogiri (1.11.5)
       mini_portile2 (~> 2.5.0)
       racc (~> 1.4)
+    parallel (1.20.1)
+    parser (3.0.1.1)
+      ast (~> 2.4.1)
     power_assert (2.0.0)
     racc (1.5.2)
+    rainbow (3.0.0)
     rake (13.0.3)
     rdoc (6.3.1)
+    regexp_parser (2.1.1)
+    reverse_markdown (2.0.0)
+      nokogiri
+    rexml (3.2.5)
+    rubocop (1.15.0)
+      parallel (~> 1.10)
+      parser (>= 3.0.0.0)
+      rainbow (>= 2.2.2, < 4.0)
+      regexp_parser (>= 1.8, < 3.0)
+      rexml
+      rubocop-ast (>= 1.5.0, < 2.0)
+      ruby-progressbar (~> 1.7)
+      unicode-display_width (>= 1.4.0, < 3.0)
+    rubocop-ast (1.5.0)
+      parser (>= 3.0.1.1)
+    ruby-progressbar (1.11.0)
+    solargraph (0.40.4)
+      backport (~> 1.1)
+      benchmark
+      bundler (>= 1.17.2)
+      e2mmap
+      jaro_winkler (~> 1.5)
+      kramdown (~> 2.3)
+      kramdown-parser-gfm (~> 1.1)
+      parser (~> 3.0)
+      reverse_markdown (>= 1.0.5, < 3)
+      rubocop (>= 0.52)
+      thor (~> 1.0)
+      tilt (~> 2.0)
+      yard (~> 0.9, >= 0.9.24)
     test-unit (3.3.9)
       power_assert
+    thor (1.1.0)
+    tilt (2.0.10)
+    unicode-display_width (2.0.0)
+    yard (0.9.26)
 
 PLATFORMS
   ruby
@@ -26,6 +73,7 @@ DEPENDENCIES
   rake (~> 13.0.3)
   rdoc (~> 6.3.1)
   sapoci!
+  solargraph (~> 0.40.4)
   test-unit (~> 3.3.6)
 
 BUNDLED WITH
