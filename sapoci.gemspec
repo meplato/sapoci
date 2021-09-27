@@ -20,7 +20,7 @@ Gem::Specification.new do |s|
   s.files = `git ls-files -- {bin,lib,spec}/*`.split("\n") + extra_rdoc_files
   s.test_files = `git ls-files -- {spec}/*`.split("\n")
 
-  s.add_dependency("nokogiri", "~> 1.11.5")
+  s.add_dependency("nokogiri", ">= 1.11.5", "< 1.13.0")
   s.add_development_dependency("bundler", "~> 2.2.17")
   s.add_development_dependency("rdoc", "~> 6.3.1")
   s.add_development_dependency("rake", "~> 13.0.3")
