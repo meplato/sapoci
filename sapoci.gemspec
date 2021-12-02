@@ -5,7 +5,7 @@ extra_rdoc_files = ['CHANGELOG.md', 'LICENSE', 'README.md']
 
 Gem::Specification.new do |s|
   s.name = 'sapoci'
-  s.version = '0.5.2'
+  s.version = '0.5.3'
   s.summary = %q{SAP OCI enables users to parse SAP OCI compliant data from online shops.}
   s.description = %q{Ruby library and Rails plugin for punchout via SAP OCI protocol.}
   s.authors = ['Oliver Eilhard']
@@ -20,7 +20,7 @@ Gem::Specification.new do |s|
   s.files = `git ls-files -- {bin,lib,spec}/*`.split("\n") + extra_rdoc_files
   s.test_files = `git ls-files -- {spec}/*`.split("\n")
 
-  s.add_dependency("nokogiri", "~> 1.11.5")
+  s.add_dependency("nokogiri", ">= 1.12.5")
   s.add_development_dependency("bundler", "~> 2.2.17")
   s.add_development_dependency("rdoc", "~> 6.3.1")
   s.add_development_dependency("rake", "~> 13.0.3")
